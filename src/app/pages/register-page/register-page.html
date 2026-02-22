@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="card">
+    <h1>Register</h1>
+    <p class="subtext">Please fill out the form to continue.</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="row">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" type="text" formControlName="name" [class.invalid]="isInvalid('name')" placeholder="e.g. Sam Punzalan" />
+          <small *ngIf="isInvalid('name')">
+            <span *ngIf="form.get('name')?.errors?.['required']">Name is required.</span>
+            <span *ngIf="form.get('name')?.errors?.['minlength']">Minimum 5 characters.</span>
+            <span *ngIf="form.get('name')?.errors?.['pattern']">Letters and spaces only.</span>
+          </small>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" [class.invalid]="isInvalid('email')" placeholder="e.g. sam@email.com" />
+          <small *ngIf="isInvalid('email')">
+            <span *ngIf="form.get('email')?.errors?.['required']">Email is required.</span>
+            <span *ngIf="form.get('email')?.errors?.['email']">Enter a valid email.</span>
+          </small>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" type="text" formControlName="phone" [class.invalid]="isInvalid('phone')" placeholder="10 digits (e.g. 7801234567)" />
+          <small *ngIf="isInvalid('phone')">
+            <span *ngIf="form.get('phone')?.errors?.['required']">Phone is required.</span>
+            <span *ngIf="form.get('phone')?.errors?.['pattern']">Must be exactly 10 digits.</span>
+          </small>
+        </div>
+
+        <div class="field">
+          <label for="dob">Date of Birth</label>
+          <input id="dob" type="date" formControlName="dob" [class.invalid]="isInvalid('dob')" />
+          <small *ngIf="isInvalid('dob')">Date of birth is required.</small>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="street">Street Address</label>
+        <input id="street" type="text" formControlName="street" [class.invalid]="isInvalid('street')" placeholder="e.g. 123 Main Street" />
+        <small *ngIf="isInvalid('street')">
+          <span *ngIf="form.get('street')?.errors?.['required']">Street is required.</span>
+          <span *ngIf="form.get('street')?.errors?.['pattern']">Letters, numbers, spaces only.</span>
+        </small>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="province">Province / Territory</label>
+          <select id="province" formControlName="province" [class.invalid]="isInvalid('province')">
+            <option value="">Select...</option>
+            <option *ngFor="let p of provincesAndTerritories" [value]="p">{{ p }}</option>
+          </select>
+          <small *ngIf="isInvalid('province')">Province/Territory is required.</small>
+        </div>
+
+        <div class="field">
+          <label for="country">Country</label>
+          <select id="country" formControlName="country" [class.invalid]="isInvalid('country')">
+            <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
+          </select>
+          <small *ngIf="isInvalid('country')">
+            <span *ngIf="form.get('country')?.errors?.['mustBeCanada']">Select Canada to proceed.</span>
+          </small>
+        </div>
+      </div>
+
+      <div class="field terms">
+        <label>
+          <input type="checkbox" formControlName="terms" />
+          I accept the Terms & Conditions
+        </label>
+        <small *ngIf="isInvalid('terms')">You must accept the Terms & Conditions.</small>
+      </div>
+
+      <button type="submit" [disabled]="form.invalid">Submit</button>
+
+      <p class="note">Submit is enabled only when the form is valid and Canada is selected.</p>
+    </form>
+  </div>
+</div>
